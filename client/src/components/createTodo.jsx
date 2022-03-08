@@ -17,7 +17,7 @@ export function CreateTodo() {
             description: data.description
         };
 
-        console.log({todo});
+        console.log(todo);
 
         axios
             .post("http://localhost:8000/api/todo", data)

@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 function TodoCard({data}) {
@@ -37,6 +38,9 @@ export function ShowTodoList() {
         <section className="container">
             <section className="contents">
                 <h1>TODO</h1>
+                <Link to="/create-todo" className="button-new">
+                    <button className="button">New</button>
+                </Link>
                 <ul className="list-container">
                     {todo.map((data) => (
                         <TodoCard data={data} key={data._id}/>
