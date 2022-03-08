@@ -15,7 +15,7 @@ function TodoCard({data}) {
                 <button className="button">delete</button>
             </div>
         </li>
-    )
+    );
 }
 
 export function ShowTodoList() {
@@ -39,8 +39,9 @@ export function ShowTodoList() {
                 <h1>TODO</h1>
                 <ul className="list-container">
                     {todo.map((data) => (
-                        <TodoCard data={data} />
-                    ))}
+                        <TodoCard data={data} key={data._id}/>
+                        )
+                    )}
                 </ul>
             </section>
         </section>

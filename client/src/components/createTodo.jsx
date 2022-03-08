@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 
 export function CreateTodo() {
-    const {data, setData} = useState({title: "", description: ""});
+    const [data, setData] = useState({title: "", description: ""});
 
     function handleChange(e) {
         setData((data) => ({...data, [e.target.name]: e.target.value}));
@@ -60,7 +60,7 @@ export function CreateTodo() {
                     <input
                         type="text"
                         name="description"
-                        value={date.description}
+                        value={data.description}
                         onChange={handleChange}
                         className="input"
                     />
