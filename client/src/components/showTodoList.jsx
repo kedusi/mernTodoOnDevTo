@@ -2,7 +2,9 @@ import {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-function TodoCard({data, handleDelete}) {
+import {UpdateTodo} from "./updateTodo";
+
+function TodoCard({data, handleEdit, handleDelete}) {
     const {_id, title, description} = data;
     return (
         <li key={_id}>
@@ -12,7 +14,7 @@ function TodoCard({data, handleDelete}) {
             </div>
 
             <div className="button-container">
-                <button className="button" name={_id}>edit</button>
+                <button className="button" name={_id} onClick={handleEdit}>edit</button>
                 <button className="button" name={_id} onClick={handleDelete}>delete</button>
             </div>
         </li>
@@ -21,6 +23,9 @@ function TodoCard({data, handleDelete}) {
 
 export function ShowTodoList() {
     const [todo, setTodo] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [id, setId] = useState("");
+    const [update, setUpdate] = useState(false);
 
     useEffect(() => {
         axios
@@ -32,7 +37,17 @@ export function ShowTodoList() {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [update]);
+
+    function handleEdit(e) {
+        setIsOpen(true);
+        setId(e.target.name);
+    }
+
+    function handleUpdate() {
+        console.log("update:", update, !update);
+        setUpdate(!update);
+    }
 
     function handleDelete(e) {
         axios.delete(`http://localhost:8000/api/todo/${e.target.name}`)
@@ -42,20 +57,46 @@ export function ShowTodoList() {
         })
     }
 
+    function handleClose() {
+        setId("");
+        setIsOpen(false);
+    }
+
     return (
-        <section className="container">
-            <section className="contents">
-                <h1>TODO</h1>
-                <Link to="/create-todo" className="button-new">
-                    <button className="button">New</button>
-                </Link>
-                <ul className="list-container">
-                    {todo.map((data) => (
-                        <TodoCard data={data} key={data._id} handleDelete={handleDelete} />
-                        )
-                    )}
-                </ul>
-            </section>
-        </section>
-    );
+		<section className='container'>
+			<section className='contents'>
+				<h1>TODO</h1>
+				<Link to='/create-todo' className='button-new'>
+					<button className='button'>New</button>
+				</Link>
+				<ul className='list-container'>
+					{todo.map((data) => (
+						<TodoCard
+							data={data}
+							key={data._id}
+							handleEdit={handleEdit}
+							handleDelete={handleDelete}
+						/>
+					))}
+				</ul>
+			</section>
+			{isOpen ? (
+				<section className='update-container'>
+					<div className='update-contents'>
+						<p onClick={handleClose} className='close'>
+							&times;
+						</p>
+
+						<UpdateTodo
+							_id={id}
+							handleClose={handleClose}
+							handleUpdate={handleUpdate}
+						/>
+					</div>
+				</section>
+			) : (
+				''
+			)}
+		</section>
+	);
 }

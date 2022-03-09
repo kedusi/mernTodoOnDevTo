@@ -5,14 +5,19 @@ import "./App.scss"
 
 function App() {
   return (
-    <div className="app-contents">
-      <BrowserRouter>
-        <Routes>
-          <Route exact path="/" element={ShowTodoList()} />
-          <Route path="/create-todo" element={CreateTodo()} /> 
-        </Routes>
-      </BrowserRouter>
-    </div>
+		<div className='app-contents'>
+			<BrowserRouter>
+				<Routes>
+					<Route
+						exact
+						path='/'
+						element={ShowTodoList()}
+						key={Date.now()}
+					/>
+					<Route path='/create-todo' element={CreateTodo()} />
+				</Routes>
+			</BrowserRouter>
+		</div>
   );
 }
 
